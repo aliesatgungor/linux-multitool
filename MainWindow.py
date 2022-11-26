@@ -2,11 +2,11 @@ import gi
 import time
 import datetime
 import subprocess
-from gi.repository import Gtk, GLib, Gio
+
 
 
 gi.require_version('Gtk', '3.0')
-
+from gi.repository import Gtk, GLib, Gio
 
 
 
@@ -40,10 +40,8 @@ class MainWindow:
         self.output_label.set_label(output)
 
     def on_clean_cache_clicked(self, btn):
-        process = subprocess.run(["echo", "4"," | ","tee"," /proc/sys/vm/drop_caches"], capture_output=True)
-        process = subprocess.run(["echo", "3"," | ","tee"," /proc/sys/vm/drop_caches"], capture_output=True)
-        time.sleep(0.1)
-        process = subprocess.run(["echo", "0"," | ","tee"," /proc/sys/vm/drop_caches"], capture_output=True)
+        komut = "pkexec sh -c 'echo 3 >  /proc/sys/vm/drop_caches'  "
+        process = subprocess.run(komut.split(),capture_output=True)
         output = process.stdout.decode("utf-8")
         o = "Tamamlandı!"
         self.output_label.set_label(o)
