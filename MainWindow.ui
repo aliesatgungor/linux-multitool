@@ -58,6 +58,39 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="orientation">horizontal</property>
+                        <property name="spacing">15</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">CPU Yükü:</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkProgressBar" id="cpu_progress">
+                            <property name="show-text">True</property>
+                            <property name="hexpand">True</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">RAM Kullanımı:</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkProgressBar" id="ram_progress">
+                            <property name="show-text">True</property>
+                            <property name="hexpand">True</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="orientation">horizontal</property>
                         <property name="spacing">25</property>
                         <property name="homogeneous">True</property>
                         <child>
@@ -113,6 +146,45 @@
                         <child>
                           <object class="GtkButton" id="kernel_modules">
                             <property name="label" translatable="yes">Çekirdek Modülleri</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">10</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Süreç Filtrele:</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="process_filter">
+                            <property name="placeholder-text" translatable="yes">Filtrele örn: python</property>
+                            <property name="visible">True</property>
+                            <property name="hexpand">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Süreç Öldür (PID/Ad):</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="process_kill_target">
+                            <property name="placeholder-text" translatable="yes">PID veya isim</property>
+                            <property name="visible">True</property>
+                            <property name="hexpand">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="kill_process">
+                            <property name="label" translatable="yes">Süreci Sonlandır</property>
                             <property name="visible">True</property>
                           </object>
                         </child>
@@ -200,37 +272,64 @@
                 <property name="child">
                   <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="orientation">horizontal</property>
-                    <property name="spacing">25</property>
-                    <property name="homogeneous">True</property>
+                    <property name="orientation">vertical</property>
+                    <property name="spacing">15</property>
                     <child>
-                      <object class="GtkButton" id="network_info">
-                        <property name="label" translatable="yes">Ağ Bilgisi</property>
+                      <object class="GtkBox">
                         <property name="visible">True</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">25</property>
+                        <property name="homogeneous">True</property>
+                        <child>
+                          <object class="GtkButton" id="network_info">
+                            <property name="label" translatable="yes">Ağ Bilgisi</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="open_ports">
+                            <property name="label" translatable="yes">Açık Portlar</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="ip_route">
+                            <property name="label" translatable="yes">Yönlendirme Tablosu</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="dns_info">
+                            <property name="label" translatable="yes">DNS Sunucuları</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                     <child>
-                      <object class="GtkButton" id="ping">
-                        <property name="label" translatable="yes">Bağlantı Testi</property>
+                      <object class="GtkBox">
                         <property name="visible">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="open_ports">
-                        <property name="label" translatable="yes">Açık Portlar</property>
-                        <property name="visible">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="ip_route">
-                        <property name="label" translatable="yes">Yönlendirme Tablosu</property>
-                        <property name="visible">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkButton" id="dns_info">
-                        <property name="label" translatable="yes">DNS Sunucuları</property>
-                        <property name="visible">True</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">10</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Ping Hedefi:</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="ping_target">
+                            <property name="placeholder-text" translatable="yes">örn: 1.1.1.1 veya google.com</property>
+                            <property name="hexpand">True</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="ping">
+                            <property name="label" translatable="yes">Bağlantı Testi (Ping)</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
                       </object>
                     </child>
                   </object>
@@ -354,6 +453,50 @@
                         </child>
                       </object>
                     </child>
+                    <child>
+                      <object class="GtkBox">
+                        <property name="visible">True</property>
+                        <property name="orientation">horizontal</property>
+                        <property name="spacing">10</property>
+                        <child>
+                          <object class="GtkLabel">
+                            <property name="label" translatable="yes">Servis Yönetimi:</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="service_name_entry">
+                            <property name="placeholder-text" translatable="yes">Servis adı örn: bluetooth</property>
+                            <property name="visible">True</property>
+                            <property name="hexpand">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="service_start">
+                            <property name="label" translatable="yes">Başlat</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="service_stop">
+                            <property name="label" translatable="yes">Durdur</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="service_restart">
+                            <property name="label" translatable="yes">Yeniden Başlat</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="service_status">
+                            <property name="label" translatable="yes">Durum</property>
+                            <property name="visible">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                 </property>
               </object>
@@ -440,6 +583,12 @@
               <object class="GtkButton" id="font_increase">
                 <property name="label">+</property>
                 <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkSpinner" id="spinner">
+                <property name="visible">True</property>
+                <property name="spinning">False</property>
               </object>
             </child>
             <layout>

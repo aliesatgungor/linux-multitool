@@ -2,6 +2,8 @@
 from unittest.mock import patch, MagicMock
 
 from commands import execute
+import commands
+commands.lang_code = "tr"
 
 
 def _fake_result(returncode=0, stdout=b"", stderr=b""):
@@ -44,3 +46,21 @@ def test_execute_missing_binary(mock_run):
 @patch("commands.subprocess.run", side_effect=OSError("permission denied"))
 def test_execute_oserror(mock_run):
     assert execute(["cmd"]) == "Hata: permission denied"
+
+
+@patch("commands.subprocess.run")
+def test_execute_pkexec_cancelled(mock_run):
+    mock_run.return_value = _fake_result(returncode=127, stderr=b"Error executing command: Request dismissed")
+    assert execute(["pkexec", "ls"]) == "Hata: Yetkilendirme (Polkit) işlemi kullanıcı tarafından iptal edildi."
+
+
+@patch("commands.subprocess.run")
+def test_execute_english_translation(mock_run):
+    commands.lang_code = "en"
+    try:
+        mock_run.return_value = _fake_result(returncode=127)
+        assert execute(["pkexec", "ls"]) == "Error: Authorization (Polkit) process was cancelled by the user."
+        mock_run.return_value = _fake_result(stdout=b"")
+        assert execute(["true"]) == "(no output)"
+    finally:
+        commands.lang_code = "tr"
