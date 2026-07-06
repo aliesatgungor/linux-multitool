@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Linux Multitool
+Comment=Temel Linux sistem araçları
+Exec=python3 /opt/linux-multitool/main.py
+Icon=utilities-terminal
+Terminal=false
+Categories=System;Utility;
