@@ -3,29 +3,50 @@
 # Linux Multitool
 
 GTK4 + PyGObject ile yazılmış, temel Linux sistem araçlarını tek bir pencereden
-sunan basit bir masaüstü uygulaması.
+sunan basit bir masaüstü uygulaması. Araçlar, üstteki sekme çubuğuyla
+kategorilere ayrılmıştır; log alanı ve alt araç çubuğu (kopyala/kaydet/
+temizle/tema/otomatik yenile/ara) tüm sekmelerde ortak ve her zaman görünür.
 
 ## Özellikler
 
-- RAM kullanımı (`free -h`)
-- RAM önbelleğini temizleme (polkit üzerinden yetkilendirilmiş)
-- Kernel versiyonu
-- Sistemi kapat / yeniden başlat / oturumu kapat (onay diyaloğu ile)
-- Kullanıcı adı
-- Disk kullanımı (`df -h`)
-- İşlemci bilgisi (`lscpu`)
-- Ağ bilgisi (`ip -brief address`)
-- Sistem çalışma süresi (`uptime -p`)
-- Dağıtım bilgisi (`/etc/os-release`)
-- Pil durumu (varsa)
+### Sistem
+RAM kullanımı, kernel versiyonu, detaylı sistem bilgisi (`uname -a`),
+çalışma süresi, dağıtım bilgisi, sistem yükü, süreç listesi (en çok RAM
+kullananlar), çekirdek modülleri (`lsmod`).
+
+### Donanım & Depolama
+İşlemci bilgisi, ekran kartı bilgisi, disk kullanımı, inode kullanımı,
+disk/bölüm listesi (`lsblk`), USB cihazları, pil durumu (varsa).
+
+### Ağ
+Ağ arayüzleri, bağlantı testi (`ping`), açık/dinleyen portlar (`ss -tulpn`),
+yönlendirme tablosu (`ip route`), DNS sunucuları.
+
+### Güç & Oturum
+Sistemi kapat / yeniden başlat / oturumu kapat (onay diyaloğu ile), kullanıcı
+adı, RAM önbelleğini temizleme (polkit ile yetkilendirilmiş).
+
+### Loglar & Servisler
+Başarısız systemd servisleri, son 50 journal kaydı, yalnızca hata seviyesi
+kayıtlar, çekirdek uyarıları (`dmesg`), açılış süresi ve en yavaş başlayan
+servisler (`systemd-analyze`), aktif oturumlar (`who`), son girişler (`last`).
+
+### Araç çubuğu (tüm sekmelerde ortak)
+Çıktıyı panoya kopyalama, dosyaya kaydetme, temizleme; karanlık/açık tema
+anahtarı; RAM kullanımını 2 saniyede bir otomatik yenileme (aç/kapa); çıktı
+içinde arama (ilk eşleşmeyi vurgulayıp oraya kaydırır); yazı tipi boyutu
+büyüt/küçült.
 
 ## Gereksinimler
 
 - Python 3
 - PyGObject (`python3-gi`) ve GTK4 introspection verileri (`gir1.2-gtk-4.0`)
 - `policykit-1` (önbellek temizleme için `pkexec`)
-- `iproute2` (ağ bilgisi için `ip`) ve `util-linux` (`lscpu`, `uptime`) — çoğu
-  dağıtımda zaten kurulu
+- `iproute2` (`ip`, `ss`), `util-linux` (`lscpu`, `uptime`, `lsblk`),
+  `procps` (`ps`), `pciutils` (`lspci`), `usbutils` (`lsusb`),
+  `iputils-ping`, `systemd` (`systemctl`, `journalctl`) — bunların hepsi
+  çoğu dağıtımda zaten kurulu gelir. Eksik olan bir araç varsa ilgili
+  buton çökmek yerine "komut bulunamadı" mesajı gösterir.
 
 GTK4, çoğu güncel dağıtımda hazır gelir (Ubuntu 22.04+, Debian 12+, Fedora
 36+ ve sonrası). Daha eski sürümlerde `gir1.2-gtk-4.0` paketi bulunamayabilir;
@@ -70,5 +91,5 @@ olarak ele alınabilir:
 - Flatpak olarak paketleme
 - i18n / `gettext` ile çoklu dil desteği
 - Paket yöneticisi güncelleme kontrolü (dağıtımdan bağımsız bir çözüm gerektirir)
-- Servis yöneticisi paneli (`systemctl` birimlerini listeleme/başlatma/durdurma)
-- Journal/log görüntüleyici
+- Servis başlatma/durdurma (şu an yalnızca başarısız servisleri listeleme var)
+- Sıcaklık sensörleri, Wi-Fi detayı, firewall durumu (dağıtıma/DE'ye özel araçlar gerektirir)
