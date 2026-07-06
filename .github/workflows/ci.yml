@@ -22,3 +22,34 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+  ui-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GTK4 + Xvfb
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-gi gir1.2-gtk-4.0 xvfb
+
+      - name: Instantiate MainWindow (headless)
+        run: |
+          xvfb-run -a python3 -c "
+          import gi
+          gi.require_version('Gtk', '4.0')
+          from gi.repository import Gtk, Gio, GLib
+          from MainWindow import MainWindow, BUTTON_HANDLERS
+
+          class TestApp(Gtk.Application):
+              def __init__(self):
+                  super().__init__(application_id='com.aliesatgungor.ilktest', flags=Gio.ApplicationFlags.FLAGS_NONE)
+
+              def do_activate(self):
+                  self.window = MainWindow(self)
+                  GLib.idle_add(self.quit)
+
+          app = TestApp()
+          app.run([])
+          print('MainWindow', len(BUTTON_HANDLERS), 'butonla başarıyla oluşturuldu.')
+          "

@@ -2,7 +2,7 @@
 
 # Linux Multitool
 
-GTK3 + PyGObject ile yazılmış, temel Linux sistem araçlarını tek bir pencereden
+GTK4 + PyGObject ile yazılmış, temel Linux sistem araçlarını tek bir pencereden
 sunan basit bir masaüstü uygulaması.
 
 ## Özellikler
@@ -22,15 +22,19 @@ sunan basit bir masaüstü uygulaması.
 ## Gereksinimler
 
 - Python 3
-- PyGObject (`python3-gi`) ve GTK3 introspection verileri (`gir1.2-gtk-3.0`)
+- PyGObject (`python3-gi`) ve GTK4 introspection verileri (`gir1.2-gtk-4.0`)
 - `policykit-1` (önbellek temizleme için `pkexec`)
 - `iproute2` (ağ bilgisi için `ip`) ve `util-linux` (`lscpu`, `uptime`) — çoğu
   dağıtımda zaten kurulu
 
+GTK4, çoğu güncel dağıtımda hazır gelir (Ubuntu 22.04+, Debian 12+, Fedora
+36+ ve sonrası). Daha eski sürümlerde `gir1.2-gtk-4.0` paketi bulunamayabilir;
+uygulama bu durumda çökmek yerine anlaşılır bir hata mesajıyla çıkar.
+
 Debian/Ubuntu türevlerinde:
 
 ```bash
-sudo apt install python3-gi gir1.2-gtk-3.0 policykit-1
+sudo apt install python3-gi gir1.2-gtk-4.0 policykit-1
 ```
 
 ## Kurulum ve Çalıştırma
@@ -62,7 +66,7 @@ veya bir ekran (display) gerektirmeden çalışır.
 Aşağıdakiler bilinçli olarak kapsam dışında bırakıldı, ileride ayrı işler
 olarak ele alınabilir:
 
-- GTK4 / libadwaita geçişi
+- libadwaita ile modern GNOME görünümüne geçiş
 - Flatpak olarak paketleme
 - i18n / `gettext` ile çoklu dil desteği
 - Paket yöneticisi güncelleme kontrolü (dağıtımdan bağımsız bir çözüm gerektirir)
