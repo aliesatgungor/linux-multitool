@@ -1,4 +1,4 @@
-import subprocess
+
 from unittest.mock import patch, MagicMock
 
 from commands import execute
